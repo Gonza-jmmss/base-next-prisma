@@ -1,20 +1,15 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
+import { ModuleElementSchema } from "@/zodSchemas/moduleElementsSchema";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-type CreateModuleElementParams = {
-  Name: string;
-  Path: string;
-  Icon: string;
-  Description: string;
-  ModuleId: number | null;
-  Location: number | null;
-};
+type createModuleElementCommandParams = z.infer<typeof ModuleElementSchema>;
 
 const createModuleElementCommand = async (
-  params: CreateModuleElementParams,
+  params: createModuleElementCommandParams,
 ) => {
   const command = await prisma.moduleElements.create({
     data: {

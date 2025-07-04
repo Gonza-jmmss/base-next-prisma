@@ -44,47 +44,16 @@ export default function ModuleElementForm({
   const form = useForm<ModuleElementFormData>({
     defaultValues: {
       ModuleElementId:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.ModuleElementId
-            : 0
-          : 0,
-      Name:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.Name
-            : ""
-          : "",
-      Path:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.Path
-            : ""
-          : "",
-      Icon:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.Icon
-            : ""
-          : "",
+        action !== "create" ? (moduleElementData?.ModuleElementId ?? 0) : 0,
+      Name: action !== "create" ? (moduleElementData?.Name ?? "") : "",
+      Path: action !== "create" ? (moduleElementData?.Path ?? "") : "",
+      Icon: action !== "create" ? (moduleElementData?.Icon ?? "") : "",
       Description:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.Description
-            : ""
-          : "",
+        action !== "create" ? (moduleElementData?.Description ?? "") : "",
       ModuleId:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.ModuleId
-            : null
-          : null,
+        action !== "create" ? (moduleElementData?.ModuleId ?? null) : null,
       Location:
-        action !== "create"
-          ? moduleElementData
-            ? moduleElementData.Location
-            : null
-          : null,
+        action !== "create" ? (moduleElementData?.Location ?? null) : null,
     },
     onSubmit: async ({ value }) => {
       action === "create" && createModuleElement(value);
