@@ -32,6 +32,7 @@ export default {
     view: "Visualiser",
     actions: "Actions",
     page: "Page",
+    noValues: "Aucune valeur trouvée.",
   },
   login: {
     user: "Utilisateur",

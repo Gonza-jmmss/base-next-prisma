@@ -3,9 +3,9 @@ import { RolesViewModel } from "../rolesViewModel";
 
 const prisma = new PrismaClient();
 
-const getAllRolesQuery = async () => {
+const getRolesWithoutRoleElementsQuery = async () => {
   const query = await prisma.roles.findMany({
-    orderBy: { IsEnabled: "desc" },
+    where: { RoleModuleElements: { none: {} } },
   });
 
   const res = query.map((roles: RolesViewModel) => ({
@@ -17,4 +17,4 @@ const getAllRolesQuery = async () => {
   return res;
 };
 
-export default getAllRolesQuery;
+export default getRolesWithoutRoleElementsQuery;
