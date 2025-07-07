@@ -56,6 +56,8 @@ export default function ModuleElementForm({
         action !== "create" ? (moduleElementData?.Location ?? null) : null,
     },
     onSubmit: async ({ value }) => {
+      // console.log("form", value);
+      setIsPending(true);
       action === "create" && createModuleElement(value);
       action === "edit" && updateModuleElement(value);
     },

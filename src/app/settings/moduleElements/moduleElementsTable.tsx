@@ -2,14 +2,14 @@
 
 import { useState, useMemo } from "react";
 import deleteModuleElementCommand from "@/repositories/moduleElements/commands/deleteModuleElementCommand";
+import { ModuleElementsViewModel } from "@/repositories/moduleElements/moduleElementsViewModel";
 import { ColumnDef } from "@tanstack/react-table";
 import Table from "@/components/table/table";
 import Header from "@/components/table/header";
+import { Button } from "@/components/ui/button";
 import Icon from "@/components/common/icon";
 import isValidIconName from "@/functions/isValidIconName";
 import DeleteModal from "@/components/common/deleteModal";
-import Link from "next/link";
-import { ModuleElementsViewModel } from "@/repositories/moduleElements/moduleElementsViewModel";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import frFR from "@/lang/fr-FR";
@@ -26,6 +26,7 @@ export default function ModuleElementsTable({
   const [openModal, setOpenModal] = useState(false);
   const [selectedModuleElementToDelete, setSelectedModuleElementToDelete] =
     useState(0);
+  const [isPending, setIsPending] = useState(false);
 
   const closeModal = () => {
     setOpenModal(false);
@@ -60,11 +61,11 @@ export default function ModuleElementsTable({
         id: "Icon",
         header: () => <Header text={t.moduleElements.columns.icon} />,
         size: 50,
-        cell: (row) => (
+        cell: ({ row }) => (
           <Icon
             name={
-              isValidIconName(row.row.original.Icon)
-                ? row.row.original.Icon
+              isValidIconName(row.original.Icon)
+                ? row.original.Icon
                 : "MdOutlineNotInterested"
             }
             className="cursor-pointer text-xl"
@@ -88,39 +89,29 @@ export default function ModuleElementsTable({
         id: "actions",
         header: () => <Header text={t.shared.actions} />,
         size: 50,
-        cell: (row) => (
+        cell: ({ row }) => (
           <div
             className="flex space-x-1"
             onClick={(event) => event.stopPropagation()}
           >
-            <Link
-              href={`/settings/moduleElements/${row.row.original.ModuleElementId}?action="edit"`}
-              className="flex flex-col space-y-2 hover:text-primary"
-            >
-              <Icon
-                name={
-                  isValidIconName("MdEdit")
-                    ? "MdEdit"
-                    : "MdOutlineNotInterested"
-                }
-                className="cursor-pointer text-xl"
-              />
-            </Link>
+            <Icon
+              name={"MdEdit"}
+              className="cursor-pointer text-xl"
+              onClick={() =>
+                router.push(
+                  `/settings/moduleElements/${row.original.ModuleElementId}?action="edit"`,
+                )
+              }
+            />
             <div
               onClick={() => {
                 setOpenModal(true);
-                setSelectedModuleElementToDelete(
-                  row.row.original.ModuleElementId,
-                );
+                setSelectedModuleElementToDelete(row.original.ModuleElementId);
               }}
             >
               <Icon
-                name={
-                  isValidIconName("MdDelete")
-                    ? "MdDelete"
-                    : "MdOutlineNotInterested"
-                }
-                className="cursor-pointer text-xl hover:text-primary"
+                name={"MdDelete"}
+                className="cursor-pointer text-xl hover:text-destructive"
               />
             </div>
           </div>
@@ -132,6 +123,7 @@ export default function ModuleElementsTable({
 
   const deleteModuleElement = async (moduleElementId: number) => {
     try {
+      setIsPending(true);
       const moduleElementToDelete = { ModuleElementId: moduleElementId };
       const response = await deleteModuleElementCommand(moduleElementToDelete);
 
@@ -150,11 +142,23 @@ export default function ModuleElementsTable({
         title: `${t.moduleElements.notifications.deleteError}`,
         description: `${error}`,
       });
+    } finally {
+      setIsPending(false);
     }
   };
 
   return (
-    <div className="">
+    <div>
+      <div className="flex items-center justify-end space-x-5">
+        <Button
+          variant="outlineColored"
+          onClick={() =>
+            router.push(`/settings/moduleElements/create?action="create"`)
+          }
+        >
+          <span>{t.moduleElements.create}</span>
+        </Button>
+      </div>
       <Table
         columns={columns}
         data={moduleElementsData}
@@ -173,6 +177,7 @@ export default function ModuleElementsTable({
         deletefunction={() =>
           deleteModuleElement(selectedModuleElementToDelete)
         }
+        isPending={isPending}
       />
     </div>
   );
