@@ -35,7 +35,7 @@ export default async function RoleModuleElementPage({
     ${action != "create" ? `: ${roleModuleElement ? roleModuleElement.RoleName : ""}` : ""}`}`;
 
   return (
-    <div className="flex justify-center pb-7 pt-3">
+    <main className="flex justify-center pb-7 pt-3">
       <div className="w-[50vw] rounded-md border bg-muted/60 p-5 shadow-md">
         <div className="flex items-center justify-between text-lg font-medium">
           {pagetitle}
@@ -52,6 +52,6 @@ export default async function RoleModuleElementPage({
         </div>
         {/* <pre>{JSON.stringify(roleModuleElement, null, 2)}</pre> */}
       </div>
-    </div>
+    </main>
   );
 }

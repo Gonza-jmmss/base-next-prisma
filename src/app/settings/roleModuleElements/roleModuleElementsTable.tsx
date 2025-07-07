@@ -9,9 +9,9 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import Table from "@/components/table/table";
 import Header from "@/components/table/header";
-import { Switch } from "@/components/ui/switch";
 import Icon from "@/components/common/icon";
-import isValidIconName from "@/functions/isValidIconName";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import DeleteModal from "@/components/common/deleteModal";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -80,7 +80,6 @@ export default function RoleModuleElementsTable({
             className="flex space-x-1"
             onClick={(event) => event.stopPropagation()}
           >
-            {/* <Icon name={"MdEdit"} className="cursor-pointer text-xl" /> */}
             <Icon
               name="MdEdit"
               className="cursor-pointer text-xl hover:text-primary"
@@ -90,12 +89,6 @@ export default function RoleModuleElementsTable({
                 )
               }
             />
-            {/* <Link
-              href={`/settings/roleModuleElements/${row.row.original.RoleId}?action="edit"`}
-              className="flex flex-col space-y-2 hover:text-primary"
-            >
-              <Icon name={"MdEdit"} className="cursor-pointer text-xl" />
-            </Link> */}
             <div
               onClick={() => {
                 setOpenModal(true);
@@ -130,11 +123,7 @@ export default function RoleModuleElementsTable({
         header: () => <Header text={t.roleModuleElements.columns.icon} />,
         cell: (row) => (
           <Icon
-            name={
-              isValidIconName(row.row.original.Icon)
-                ? row.row.original.Icon
-                : "MdOutlineNotInterested"
-            }
+            name={"MdOutlineNotInterested"}
             className="cursor-pointer text-xl"
           />
         ),
@@ -175,11 +164,7 @@ export default function RoleModuleElementsTable({
         filterFn: "equalsString",
         cell: (row) => (
           <Icon
-            name={
-              isValidIconName(row.row.original.Icon)
-                ? row.row.original.Icon
-                : "MdOutlineNotInterested"
-            }
+            name={"MdOutlineNotInterested"}
             className="cursor-pointer text-xl"
           />
         ),
@@ -237,7 +222,17 @@ export default function RoleModuleElementsTable({
   };
 
   return (
-    <div className="">
+    <div>
+      <div className="flex items-center justify-end space-x-5">
+        <Button
+          variant="outlineColored"
+          onClick={() =>
+            router.push(`/settings/roleModuleElements/create?action="create"`)
+          }
+        >
+          <span>{t.roleModuleElements.create}</span>
+        </Button>
+      </div>
       <Table
         columns={columns}
         data={roleModuleElementsData}
@@ -260,11 +255,6 @@ export default function RoleModuleElementsTable({
             />
           </>
         )}
-        // onRowClick={(row) =>
-        //   router.push(
-        //     `/settings/roleModuleElements/${row.RoleModuleElementId}?action="view"`,
-        //   )
-        // }
       />
       <DeleteModal
         openModal={openModal}
