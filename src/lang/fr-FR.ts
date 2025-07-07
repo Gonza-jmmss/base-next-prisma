@@ -2,18 +2,12 @@
 export default {
   breadcrumbs: {
     home: "Accueil",
-    students: "Étudiants",
-    reports: "Rapports",
-    ifleStudentsNotes: "Notes des étudiants IFLE",
     settings: "Paramètres",
     users: "Utilisateurs",
     roles: "Rôles",
     modules: "Modules",
     moduleElements: "Éléments du module",
     roleModuleElements: "Éléments du module de rôle",
-  },
-  shortcuts: {
-    transcripts: "Transcripts",
   },
   shared: {
     save: "Enregistrer",
@@ -28,10 +22,12 @@ export default {
     create: "Créer",
     edit: "Modifier",
     delete: "Supprimer",
-    desable: "Désactiver",
+    disable: "Désactiver",
     view: "Visualiser",
     actions: "Actions",
     page: "Page",
+    enables: "Actifs",
+    disables: "Inactifs",
     noValues: "Aucune valeur trouvée.",
   },
   login: {
@@ -108,13 +104,24 @@ export default {
       updateSuccess: "Rôle modifié avec succès",
       updateError: "Une erreur s'est produite pendant la modification du rôle",
       updateFailure: "Échec de la modification du rôle",
-      deleteSuccess: "Rôle désactivé avec succès",
-      deleteError: "Une erreur s'est produite pendant la désactivation du rôle",
-      deleteFailure: "Échec de la désactivation du rôle",
+      deleteSuccess: "Rôle supprimé avec succès",
+      deleteError: "Une erreur s'est produite pendant la suppression du rôle",
+      deleteFailure: "Échec de la suppression du rôle",
+      disableSuccess: "Rôle désactivé avec succès",
+      disableError:
+        "Une erreur s'est produite pendant la désactivation du rôle",
+      disableFailure: "Échec de la désactivation du rôle",
     },
     deleteModal: {
       title: "Êtes-vous sûr de supprimer le rôle ?",
       description: "Le rôle sera définitivement supprimé",
+      disableTitle: "Êtes-vous sûr de vouloir désactiver le rôle?",
+      disableDescription: "Le rôle sera désactivé",
+    },
+    deleteModalValidation: {
+      title: "Le rôle a des utilisateurs assignées",
+      description:
+        "Les rôles avec des utilisateurs assignés ne peuvent pas être supprimées",
     },
   },
   modules: {
@@ -238,116 +245,6 @@ export default {
     deleteModal: {
       title: "Êtes-vous sûr de vouloir supprimer ces permissions ?",
       description: "Les permissions de rôle seront définitivement supprimées",
-    },
-  },
-  student: {
-    pageTitle: "Page des étudiants",
-    student: "Étudiant",
-    columns: {
-      id: "ID",
-      dBaseCode: "Code DBase",
-      studentName: "Nom",
-      studentType: "Type d'étudiant",
-      isACA: "Est ACA",
-      actions: "Actions",
-    },
-  },
-  reports: {
-    pageTitle: "Rapports",
-    ifleStudentsNotes: {
-      title: "Notes des étudiants IFLE",
-      titlePage: "Notes des étudiants IFLE de",
-      secretariatName: "Marta Oliver",
-      data: {
-        studentName: "Nom de l'étudiant",
-        birthdate: "Date de naissance",
-        place: "Lieu",
-        country: "Pays",
-        emissionDate: "Date d'émission",
-        studentId: "N° ID",
-      },
-      columns: {
-        courseCode: "N° Cours",
-        coursName: "Nom du cours",
-        scholarYear: "Année scolaire",
-        creditAmount: "Crédits",
-        note: "Note/20",
-        americanNote: "Américaine",
-        quarter: "Trimestre",
-      },
-      dpfFrench: {
-        exportPDF: "French PDF",
-        titleInstitute: "Institut de francais langue etrangere",
-        nomCampus: "Campus Adventiste du Saleve",
-        address1: "33, Chemin du Pérouzet",
-        address2: "74160 Collonges-Sous-Saleve, France",
-        titleReport: "Releve Officiel des Cours et des Notes",
-        titleWarning:
-          "Ce document n'est pas valable sans le timbre sec officiel a empreinte",
-        secretariat: "Le secrétariat :",
-        date: "Date :",
-        data: {
-          studentName: "Nom de l'étudiant(e) :",
-          dbaseId: "N° ID :",
-          birthdate: "Né(e) le :",
-          issueDate: "Date d'émission du relevé :",
-          place: "Lieu :",
-          country: "Pays :",
-        },
-        columns: {
-          scholarYear: "Année",
-          quarter: "Tr.",
-          courseCode: "N° cours",
-          coursName: "Nom des cours",
-          creditAmount: "Valeur",
-          note: "Note/20",
-        },
-        text: {
-          title: "Notes :",
-          noteText:
-            "I = Incomplet, W = Retrait des cours, P = Passable U = Nom satisfaisant, AU = Auditeur, F = Echec",
-          descText:
-            "Une unité de valeur équivaut à une heure de cours par semaine pendant un trimestre",
-        },
-      },
-      dpfEnglish: {
-        exportPDF: "American PDF",
-        titleInstitute: "Institut de francais langue etrangere",
-        nomCampus: "Campus Adventiste du Saleve",
-        address1: "33, Chemin du Pérouzet",
-        address2: "74160 Collonges-Sous-Saleve, France",
-        titleReport: "Official transcript of records",
-        titleWarning: "Not valid without the official embossed stamp",
-        secretariat: "The Registrar :",
-        date: "Date :",
-        data: {
-          studentName: "Student's name :",
-          dbaseId: "N° ID :",
-          birthdate: "Birth date :",
-          issueDate: "Date of issue :",
-          dateFormat: "(dd/mm/yy)",
-          place: "Place :",
-          country: "Country :",
-          issuedTo: "Transcript issued to :",
-          credits: "Credits :",
-        },
-        columns: {
-          scholarYear: "Year/Quart.",
-          courseCode: "Course N°",
-          coursName: "Title",
-          creditAmount: "Credit Hours",
-          note: "Grade",
-        },
-        text: {
-          title: "Grades :",
-          noteText1:
-            "A = Superior, B = Above average, C = Average, D = Below average, F = Failure, I = Incomplete",
-          noteText2:
-            "AU = Auditor, W = Withdrawal, P = Passing, U = Non satisfactory.",
-          descText:
-            "One quarter credit is equivalent to one hour of class per week. Dates are DD/MM/YY.",
-        },
-      },
     },
   },
 };

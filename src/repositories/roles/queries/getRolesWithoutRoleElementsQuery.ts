@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { RolesViewModel } from "../rolesViewModel";
+import { RolesWithoutRoleElementsMap } from "../rolesViewModel";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ const getRolesWithoutRoleElementsQuery = async () => {
     where: { RoleModuleElements: { none: {} } },
   });
 
-  const res = query.map((roles: RolesViewModel) => ({
+  const res = query.map((roles: RolesWithoutRoleElementsMap) => ({
     RoleId: roles.RoleId,
     Name: roles.Name,
     IsEnabled: roles.IsEnabled,

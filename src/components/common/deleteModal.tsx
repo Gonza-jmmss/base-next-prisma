@@ -8,14 +8,16 @@ export default function DeleteModal({
   titleText,
   descriptionText,
   deletefunction,
-  desable,
+  disable,
+  isPending,
 }: {
   openModal: boolean;
   closeModal: () => void;
   titleText: string;
   descriptionText: string;
   deletefunction: () => void;
-  desable?: boolean;
+  disable?: boolean;
+  isPending?: boolean;
 }) {
   const t = frFR;
 
@@ -37,11 +39,12 @@ export default function DeleteModal({
           </Button>
           <Button
             type="button"
-            variant={"default"}
+            variant={"destructive"}
             className="w-[30%]"
             onClick={deletefunction}
+            disabled={isPending}
           >
-            {desable ? t.shared.desable : t.shared.delete}
+            {disable ? t.shared.disable : t.shared.delete}
           </Button>
         </div>
       </div>
