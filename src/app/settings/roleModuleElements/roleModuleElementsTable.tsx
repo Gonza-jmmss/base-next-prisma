@@ -9,9 +9,10 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import Table from "@/components/table/table";
 import Header from "@/components/table/header";
-import Icon from "@/components/common/icon";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import Icon from "@/components/common/icon";
+import isValidIconName from "@/functions/isValidIconName";
 import DeleteModal from "@/components/common/deleteModal";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -29,6 +30,7 @@ export default function RoleModuleElementsTable({
   const [openModal, setOpenModal] = useState(false);
   const [selectedModuleElementToDelete, setSelectedModuleElementToDelete] =
     useState(0);
+  const [isPending, setIsPending] = useState(false);
 
   const closeModal = () => {
     setOpenModal(false);
@@ -97,7 +99,7 @@ export default function RoleModuleElementsTable({
             >
               <Icon
                 name={"MdDelete"}
-                className="cursor-pointer text-xl hover:text-primary"
+                className="cursor-pointer text-xl hover:text-destructive"
               />
             </div>
           </div>
@@ -121,9 +123,13 @@ export default function RoleModuleElementsTable({
         accessorKey: "Icon",
         id: "Icon",
         header: () => <Header text={t.roleModuleElements.columns.icon} />,
-        cell: (row) => (
+        cell: ({ row }) => (
           <Icon
-            name={"MdOutlineNotInterested"}
+            name={
+              isValidIconName(row.original.Icon)
+                ? row.original.Icon
+                : "MdOutlineNotInterested"
+            }
             className="cursor-pointer text-xl"
           />
         ),
@@ -162,9 +168,13 @@ export default function RoleModuleElementsTable({
         id: "Icon",
         header: () => <Header text={t.roleModuleElements.columns.icon} />,
         filterFn: "equalsString",
-        cell: (row) => (
+        cell: ({ row }) => (
           <Icon
-            name={"MdOutlineNotInterested"}
+            name={
+              isValidIconName(row.original.Icon)
+                ? row.original.Icon
+                : "MdOutlineNotInterested"
+            }
             className="cursor-pointer text-xl"
           />
         ),
@@ -196,6 +206,7 @@ export default function RoleModuleElementsTable({
 
   const deleteRoleModuleElement = async (roleModuleElementId: number) => {
     try {
+      setIsPending(true);
       const roleModuleElementsToDelete = {
         RoleId: roleModuleElementId,
       };
@@ -218,6 +229,8 @@ export default function RoleModuleElementsTable({
         title: `${t.roleModuleElements.notifications.deleteError}`,
         description: `${error}`,
       });
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -264,6 +277,7 @@ export default function RoleModuleElementsTable({
         deletefunction={() =>
           deleteRoleModuleElement(selectedModuleElementToDelete)
         }
+        isPending={isPending}
       />
     </div>
   );
