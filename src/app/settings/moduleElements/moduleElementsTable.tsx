@@ -103,17 +103,14 @@ export default function ModuleElementsTable({
                 )
               }
             />
-            <div
+            <Icon
+              name={"MdDelete"}
+              className="cursor-pointer text-xl hover:text-destructive"
               onClick={() => {
                 setOpenModal(true);
                 setSelectedModuleElementToDelete(row.original.ModuleElementId);
               }}
-            >
-              <Icon
-                name={"MdDelete"}
-                className="cursor-pointer text-xl hover:text-destructive"
-              />
-            </div>
+            />
           </div>
         ),
       },

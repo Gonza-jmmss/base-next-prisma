@@ -1,7 +1,7 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { ModuleElementSchema } from "@/zodSchemas/moduleElementsSchema";
+import { ModuleElementSchema } from "@/zodSchemas/moduleElementSchema";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
