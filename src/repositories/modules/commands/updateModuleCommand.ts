@@ -1,18 +1,14 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
+import { ModuleSchema } from "@/zodSchemas/moduleSchema";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-type UpdateModuleParams = {
-  ModuleId: number;
-  Name: string;
-  Path: string;
-  Icon: string;
-  Location: number | null;
-};
+type updateModuleCommandParams = z.infer<typeof ModuleSchema>;
 
-const updateModuleCommand = async (params: UpdateModuleParams) => {
+const updateModuleCommand = async (params: updateModuleCommandParams) => {
   return await prisma.modules.update({
     where: {
       ModuleId: params.ModuleId,

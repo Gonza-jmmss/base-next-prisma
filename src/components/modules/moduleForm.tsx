@@ -4,6 +4,7 @@ import { useState } from "react";
 import createModuleCommand from "@/repositories/modules/commands/createModuleCommand";
 import updateModuleCommand from "@/repositories/modules/commands/updateModuleCommand";
 import { ModuleViewModel } from "@/repositories/modules/modulesViewModel";
+import { ModuleSchema } from "@/zodSchemas/moduleSchema";
 import { useForm } from "@tanstack/react-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,13 +14,6 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import frFR from "@/lang/fr-FR";
 
-const ModuleSchema = z.object({
-  ModuleId: z.number(),
-  Name: z.string(),
-  Path: z.string(),
-  Icon: z.string(),
-  Location: z.number().nullable(),
-});
 type ModuleFormData = z.infer<typeof ModuleSchema>;
 
 export default function ModuleForm({
@@ -37,15 +31,15 @@ export default function ModuleForm({
 
   const form = useForm<ModuleFormData>({
     defaultValues: {
-      ModuleId:
-        action !== "create" ? (moduleData ? moduleData.ModuleId : 0) : 0,
-      Name: action !== "create" ? (moduleData ? moduleData.Name : "") : "",
-      Path: action !== "create" ? (moduleData ? moduleData.Path : "") : "",
-      Icon: action !== "create" ? (moduleData ? moduleData.Icon : "") : "",
-      Location:
-        action !== "create" ? (moduleData ? moduleData.Location : null) : null,
+      ModuleId: action !== "create" ? (moduleData?.ModuleId ?? 0) : 0,
+      Name: action !== "create" ? (moduleData?.Name ?? "") : "",
+      Path: action !== "create" ? (moduleData?.Path ?? "") : "",
+      Icon: action !== "create" ? (moduleData?.Icon ?? "") : "",
+      Location: action !== "create" ? (moduleData?.Location ?? null) : null,
     },
     onSubmit: async ({ value }) => {
+      // console.log("form", value);
+      setIsPending(true);
       action === "create" && createModule(value);
       action === "edit" && updateModule(value);
     },

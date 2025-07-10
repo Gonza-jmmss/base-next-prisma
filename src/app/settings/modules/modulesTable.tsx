@@ -2,14 +2,14 @@
 
 import { useState, useMemo } from "react";
 import deleteModuleCommand from "@/repositories/modules/commands/deleteModuleCommand";
+import { ModulesViewModel } from "@/repositories/modules/modulesViewModel";
 import { ColumnDef } from "@tanstack/react-table";
 import Table from "@/components/table/table";
 import Header from "@/components/table/header";
+import { Button } from "@/components/ui/button";
 import Icon from "@/components/common/icon";
 import isValidIconName from "@/functions/isValidIconName";
 import DeleteModal from "@/components/common/deleteModal";
-import Link from "next/link";
-import { ModulesViewModel } from "@/repositories/modules/modulesViewModel";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import frFR from "@/lang/fr-FR";
@@ -25,6 +25,7 @@ export default function ModulesTable({
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedModuleToDelete, setSelectedModuleToDelete] = useState(0);
+  const [isPending, setIsPending] = useState(false);
 
   const closeModal = () => {
     setOpenModal(false);
@@ -78,39 +79,28 @@ export default function ModulesTable({
         id: "actions",
         header: () => <Header text={t.shared.actions} />,
         size: 50,
-        cell: (row) => (
+        cell: ({ row }) => (
           <div
             className="flex space-x-1"
             onClick={(event) => event.stopPropagation()}
           >
-            <Link
-              href={`/settings/modules/${row.row.original.ModuleId}?action="edit"`}
-              className="flex flex-col space-y-2 hover:text-primary"
-            >
-              <Icon
-                name={
-                  isValidIconName("MdEdit")
-                    ? "MdEdit"
-                    : "MdOutlineNotInterested"
-                }
-                className="cursor-pointer text-xl"
-              />
-            </Link>
-            <div
+            <Icon
+              name={"MdEdit"}
+              className="cursor-pointer text-xl"
+              onClick={() =>
+                router.push(
+                  `/settings/modules/${row.original.ModuleId}?action="edit"`,
+                )
+              }
+            />
+            <Icon
+              name={"MdDelete"}
+              className="cursor-pointer text-xl hover:text-destructive"
               onClick={() => {
                 setOpenModal(true);
-                setSelectedModuleToDelete(row.row.original.ModuleId);
+                setSelectedModuleToDelete(row.original.ModuleId);
               }}
-            >
-              <Icon
-                name={
-                  isValidIconName("MdDelete")
-                    ? "MdDelete"
-                    : "MdOutlineNotInterested"
-                }
-                className="cursor-pointer text-xl hover:text-primary"
-              />
-            </div>
+            />
           </div>
         ),
       },
@@ -120,6 +110,7 @@ export default function ModulesTable({
 
   const deleteModule = async (moduleId: number) => {
     try {
+      setIsPending(true);
       const moduleToDelete = { ModuleId: moduleId };
       const response = await deleteModuleCommand(moduleToDelete);
 
@@ -138,11 +129,23 @@ export default function ModulesTable({
         title: `${t.modules.notifications.deleteError}`,
         description: `${error}`,
       });
+    } finally {
+      setIsPending(false);
     }
   };
 
   return (
-    <div className="">
+    <div>
+      <div className="flex items-center justify-end space-x-5">
+        <Button
+          variant="outlineColored"
+          onClick={() =>
+            router.push(`/settings/modules/create?action="create"`)
+          }
+        >
+          <span>{t.moduleElements.create}</span>
+        </Button>
+      </div>
       <Table
         columns={columns}
         data={modulesData}
@@ -157,6 +160,7 @@ export default function ModulesTable({
         titleText={t.modules.deleteModal.title}
         descriptionText={t.modules.deleteModal.description}
         deletefunction={() => deleteModule(selectedModuleToDelete)}
+        isPending={isPending}
       />
     </div>
   );
