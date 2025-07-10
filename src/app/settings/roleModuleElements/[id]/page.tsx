@@ -1,4 +1,3 @@
-import getRoleModuleElementByIdQuery from "@/repositories/roleModuleElements/queries/getRoleModuleElementByIdQuery";
 import getRoleModuleElementsByRoleIdQuey from "@/repositories/roleModuleElements/queries/getRoleModuleElementsByRoleIdQuey";
 import getAllModulesQuery from "@/repositories/modules/queries/getAllModulesQuery";
 import getAllModuleElementsQuery from "@/repositories/moduleElements/queries/getAllModuleElementsQuery";
