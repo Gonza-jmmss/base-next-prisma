@@ -20,7 +20,7 @@ export default async function RolesPage({
   const roles = await getAllRolesQuery({ IsEnabled: isEnabledParam });
 
   return (
-    <main className="mt-3 w-[80vw]">
+    <main className="relative mt-3 w-[80vw]">
       <Button asChild className={`absolute -left-16 -top-1`} variant="ghost">
         <Link href={`/settings`}>
           <Icon name={"MdArrowBack"} className="text-xl" />
