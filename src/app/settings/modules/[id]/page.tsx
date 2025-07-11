@@ -1,5 +1,8 @@
 import getModuleByIdQuery from "@/repositories/modules/queries/getModuleByIdQuery";
 import ModuleForm from "@/components/modules/moduleForm";
+import Icon from "@/components/common/icon";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import frFR from "@/lang/fr-FR";
 
 export default async function Page({
@@ -23,7 +26,12 @@ export default async function Page({
     ${action != "create" ? `: ${module ? module.Name : ""}` : ""}`}`;
 
   return (
-    <div className="mt-5 flex justify-center">
+    <main className="relative mt-5 flex justify-center">
+      <Button asChild className={`absolute -left-16 top-3`} variant="ghost">
+        <Link href={`/settings/modules`}>
+          <Icon name={"MdArrowBack"} className="text-xl" />
+        </Link>
+      </Button>
       <div className="mt-3 w-[50vw] rounded-md border bg-muted/60 p-5 shadow-md">
         <div className="flex items-center justify-between text-lg font-medium">
           {pagetitle}
@@ -33,6 +41,6 @@ export default async function Page({
         </div>
         {/* <pre>{JSON.stringify(module, null, 2)}</pre> */}
       </div>
-    </div>
+    </main>
   );
 }
