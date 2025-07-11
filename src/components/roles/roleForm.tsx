@@ -153,7 +153,9 @@ export default function RoleForm({
             type="button"
             variant={"secondary"}
             className="w-[30%]"
-            onClick={() => router.back()}
+            onClick={() =>
+              router.push(`/settings/roles?isEnabled=${isEnabledParam}`)
+            }
           >
             {t.shared.cancel}
           </Button>
