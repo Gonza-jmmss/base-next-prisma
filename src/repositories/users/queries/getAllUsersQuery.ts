@@ -4,8 +4,13 @@ import { UsersViewModel } from "../usersViewModel";
 
 const prisma = new PrismaClient();
 
-const getAllUsersQuery = cache(async () => {
+type getAllUsersQueryParams = {
+  IsEnabled: boolean;
+};
+
+const getAllUsersQuery = cache(async (params: getAllUsersQueryParams) => {
   const query = await prisma.users.findMany({
+    where: { IsEnabled: params.IsEnabled },
     include: {
       Roles: true,
     },

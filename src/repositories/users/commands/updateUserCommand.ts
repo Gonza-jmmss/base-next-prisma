@@ -1,17 +1,14 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
+import { UserSchema } from "@/zodSchemas/userSchema";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-type updateUserParamsType = {
-  UserId: number;
-  UserName: string;
-  RoleId: number;
-  IsEnabled: boolean;
-};
+type updateUserParams = z.infer<typeof UserSchema>;
 
-const updateUserCommand = async (params: updateUserParamsType) => {
+const updateUserCommand = async (params: updateUserParams) => {
   return await prisma.users.update({
     where: {
       UserId: params.UserId,

@@ -1,18 +1,15 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
+import { UserSchema } from "@/zodSchemas/userSchema";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-type createUserParamsType = {
-  UserName: string;
-  Password: string;
-  RoleId: number;
-  IsEnabled: boolean;
-};
+type createUserParams = z.infer<typeof UserSchema>;
 
-const createUserCommand = async (params: createUserParamsType) => {
+const createUserCommand = async (params: createUserParams) => {
   const hashedPassword = (await bcrypt.hash(params.Password, 10)).toString();
 
   return await prisma.users.create({

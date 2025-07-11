@@ -4,6 +4,7 @@ import { useState } from "react";
 import createUserCommand from "@/repositories/users/commands/createUserCommand";
 import updateUserCommand from "@/repositories/users/commands/updateUserCommand";
 import updateUserPasswordCommand from "@/repositories/users/commands/updateUserPasswordCommand";
+import { UserSchema } from "@/zodSchemas/userSchema";
 import { useForm } from "@tanstack/react-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,42 +17,39 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import frFR from "@/lang/fr-FR";
 
-const UserSchema = z.object({
-  UserId: z.number(),
-  UserName: z.string(),
-  Password: z.string(),
-  RepeatPassword: z.string(),
-  RoleId: z.number(),
-  IsEnabled: z.boolean(),
-});
-
 type UserFormData = z.infer<typeof UserSchema>;
 
 export default function UserForm({
   userData,
-  action,
   roles,
+  action,
+  urlParams,
 }: {
   userData: UserViewModel | null;
-  action: string;
   roles: RolesViewModel[];
+  action: string | undefined;
+  urlParams?: { [key: string]: string | string[] | undefined };
 }) {
   const t = frFR;
   const { toast } = useToast();
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
+  const isEnabledParam =
+    urlParams?.isEnabled === undefined ? true : urlParams.isEnabled === "true";
+
   const form = useForm<UserFormData>({
     defaultValues: {
-      UserId: action !== "create" ? (userData ? userData.UserId : 0) : 0,
-      UserName: action !== "create" ? (userData ? userData.UserName : "") : "",
+      UserId: action !== "create" ? (userData?.UserId ?? 0) : 0,
+      UserName: action !== "create" ? (userData?.UserName ?? "") : "",
       Password: "",
       RepeatPassword: "",
-      RoleId: action !== "create" ? (userData ? userData.RoleId : 0) : 0,
-      IsEnabled:
-        action !== "create" ? (userData ? userData.IsEnabled : true) : true,
+      RoleId: action !== "create" ? (userData?.RoleId ?? 0) : 0,
+      IsEnabled: action !== "create" ? (userData?.IsEnabled ?? true) : true,
     },
     onSubmit: async ({ value }) => {
+      // console.log("form", value);
+      setIsPending(true);
       action === "create" && createUser(value);
       action === "edit" && updateUser(value);
       action === "password" && updateUserPassword(value);
@@ -70,7 +68,7 @@ export default function UserForm({
         description: `${t.users.title} : ${response.UserName}`,
       });
 
-      router.push("/settings/users");
+      router.push(`/settings/users?isEnabled=${isEnabledParam}`);
       router.refresh();
     } catch (error) {
       toast({
@@ -95,7 +93,7 @@ export default function UserForm({
         description: `${t.users.title} : ${response.UserName}`,
       });
 
-      router.push("/settings/users");
+      router.push(`/settings/users?isEnabled=${isEnabledParam}`);
       router.refresh();
     } catch (error) {
       toast({
@@ -120,7 +118,7 @@ export default function UserForm({
         description: `${t.users.title} : ${response.UserName}`,
       });
 
-      router.push("/settings/users");
+      router.push(`/settings/users?isEnabled=${isEnabledParam}`);
       router.refresh();
     } catch (error) {
       toast({
@@ -216,9 +214,7 @@ export default function UserForm({
             <form.Field
               name="Password"
               validators={{
-                onChange: z
-                  .string()
-                  .min(8, "Le mot de passe doit contenir au moins 8 lettres"),
+                onChange: z.string().min(8, t.users.validation.password),
               }}
               children={(field) => (
                 <>
@@ -247,7 +243,7 @@ export default function UserForm({
                 onChangeListenTo: ["Password"],
                 onChange: ({ value, fieldApi }) => {
                   if (value !== fieldApi.form.getFieldValue("Password")) {
-                    return "Les mots de passe ne correspondent pas";
+                    return t.users.validation.repeatPassword;
                   }
                   return undefined;
                 },
@@ -280,7 +276,9 @@ export default function UserForm({
             type="button"
             variant={"secondary"}
             className="w-[40%]"
-            onClick={() => router.back()}
+            onClick={() =>
+              router.push(`/settings/users?isEnabled=${isEnabledParam}`)
+            }
           >
             {t.shared.cancel}
           </Button>
@@ -298,7 +296,9 @@ export default function UserForm({
           <Button
             variant={"secondary"}
             className="w-[40%]"
-            onClick={() => router.back()}
+            onClick={() =>
+              router.push(`/settings/users?isEnabled=${isEnabledParam}`)
+            }
           >
             {t.shared.cancel}
           </Button>

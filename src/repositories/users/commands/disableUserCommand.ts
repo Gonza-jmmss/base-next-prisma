@@ -4,11 +4,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-type deleteUserParamsType = {
+type disableUserParamsType = {
   UserId: number;
 };
 
-const deleteUserCommand = async (params: deleteUserParamsType) => {
+const disableUserCommand = async (params: disableUserParamsType) => {
   return await prisma.users.update({
     where: {
       UserId: params.UserId,
@@ -19,4 +19,4 @@ const deleteUserCommand = async (params: deleteUserParamsType) => {
   });
 };
 
-export default deleteUserCommand;
+export default disableUserCommand;

@@ -1,29 +1,40 @@
-import UsersTable from "./usersTable";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import getAllUsersQuery from "@/repositories/users/queries/getAllUsersQuery";
+import UsersTable from "./usersTable";
+import Icon from "@/components/common/icon";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import frFR from "@/lang/fr-FR";
 
-export default async function UsersPage() {
+export default async function UsersPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const t = frFR;
 
-  const users = await getAllUsersQuery();
+  const isEnabledParam =
+    searchParams?.isEnabled === undefined
+      ? true
+      : searchParams.isEnabled === "true";
+
+  const users = await getAllUsersQuery({ IsEnabled: isEnabledParam });
 
   return (
-    <main className="mt-3 w-[80vw]">
+    <main className="relative mt-3 w-[80vw]">
+      <Button asChild className={`absolute -left-16 -top-1`} variant="ghost">
+        <Link href={`/settings`}>
+          <Icon name={"MdArrowBack"} className="text-xl" />
+        </Link>
+      </Button>
       <div className="flex justify-between space-x-3">
         <span className="text-xl font-semibold">{t.users.pageTitle}</span>
-        <Button asChild variant="outlineColored">
-          <Link
-            href={`/settings/users/create?action="create"`}
-            className="flex flex-col space-y-2"
-          >
-            <span>{t.users.create}</span>
-          </Link>
-        </Button>
       </div>
+      <UsersTable
+        usersData={users}
+        isEnabledSelected={isEnabledParam}
+        urlParams={searchParams}
+      />
       {/* <pre>{JSON.stringify(users, null, 2)}</pre> */}
-      <UsersTable usersData={users} />
     </main>
   );
 }

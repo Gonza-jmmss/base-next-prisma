@@ -1,4 +1,4 @@
-export type getAllUsersQueryViewModel = {
+export type AllUsersQueryViewModel = {
   UserId: number;
   UserName: string;
   RoleId: number;
