@@ -69,18 +69,23 @@ export default {
       updateError:
         "Une erreur s'est produite pendant la modification de l'utilisateur",
       updateFailure: "Échec de la modification de l'utilisateur",
-      deleteSuccess: "Utilisateur désactivé  avec succès",
-      deleteError:
+      disableSuccess: "Utilisateur désactivé  avec succès",
+      disableError:
         "Une erreur s'est produite pendant la désactivation de l'utilisateur",
-      deleteFailure: "Échec de la désactivation de l'utilisateur",
+      disableFailure: "Échec de la désactivation de l'utilisateur",
       updatePasswordSuccess: "Mot de passe modifié avec succès",
       updatePasswordError:
         "Une erreur s'est produite pendant la modification du mot de passe",
       updatePasswordFailure: "Échec de la modification du mot de passe",
     },
     deleteModal: {
-      title: "Êtes-vous sûr de supprimer l'utilisateur ?",
-      description: "L'utilisateur sera définitivement supprimé",
+      title: "Êtes-vous sûr de désactiver l'utilisateur ?",
+      description:
+        "L'utilisateur sera désactivé et il n'aura plus accès au logiciel",
+    },
+    validation: {
+      password: "Le mot de passe doit contenir au moins 8 lettres",
+      repeatPassword: "Les mots de passe ne correspondent pas",
     },
   },
   roles: {

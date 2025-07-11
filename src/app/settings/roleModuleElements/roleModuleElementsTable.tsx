@@ -77,7 +77,7 @@ export default function RoleModuleElementsTable({
         id: "actions",
         header: () => <Header text={t.shared.actions} />,
         size: 50,
-        cell: (row) => (
+        cell: ({ row }) => (
           <div
             className="flex space-x-1"
             onClick={(event) => event.stopPropagation()}
@@ -87,21 +87,18 @@ export default function RoleModuleElementsTable({
               className="cursor-pointer text-xl hover:text-primary"
               onClick={() =>
                 router.push(
-                  `/settings/roleModuleElements/${row.row.original.RoleId}?action="edit"`,
+                  `/settings/roleModuleElements/${row.original.RoleId}?action="edit"`,
                 )
               }
             />
-            <div
+            <Icon
+              name={"MdDelete"}
+              className="cursor-pointer text-xl hover:text-destructive"
               onClick={() => {
                 setOpenModal(true);
-                setSelectedModuleElementToDelete(row.row.original.RoleId);
+                setSelectedModuleElementToDelete(row.original.RoleId);
               }}
-            >
-              <Icon
-                name={"MdDelete"}
-                className="cursor-pointer text-xl hover:text-destructive"
-              />
-            </div>
+            />
           </div>
         ),
       },

@@ -4,6 +4,9 @@ import getAllModuleElementsQuery from "@/repositories/moduleElements/queries/get
 import getAllRolesQuery from "@/repositories/roles/queries/getAllRolesQuery";
 import RoleModuleElementForm from "@/components/roleModuleElements/roleModuleElementsForm";
 import getRolesWithoutRoleElementsQuery from "@/repositories/roles/queries/getRolesWithoutRoleElementsQuery";
+import Icon from "@/components/common/icon";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import frFR from "@/lang/fr-FR";
 
 export default async function RoleModuleElementPage({
@@ -34,7 +37,12 @@ export default async function RoleModuleElementPage({
     ${action != "create" ? `: ${roleModuleElement ? roleModuleElement.RoleName : ""}` : ""}`}`;
 
   return (
-    <main className="flex justify-center pb-7 pt-3">
+    <main className="relative mt-5 flex justify-center">
+      <Button asChild className={`absolute -left-16 top-3`} variant="ghost">
+        <Link href={`/settings/roleModuleElements`}>
+          <Icon name={"MdArrowBack"} className="text-xl" />
+        </Link>
+      </Button>
       <div className="w-[50vw] rounded-md border bg-muted/60 p-5 shadow-md">
         <div className="flex items-center justify-between text-lg font-medium">
           {pagetitle}
