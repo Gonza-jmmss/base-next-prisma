@@ -1,6 +1,9 @@
 import getModuleElementByIdQuery from "@/repositories/moduleElements/queries/getModuleElementById.Query";
 import getAllModulesQuery from "@/repositories/modules/queries/getAllModulesQuery";
 import ModuleElementForm from "@/components/moduleElement/moduleElementForm";
+import Icon from "@/components/common/icon";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import frFR from "@/lang/fr-FR";
 
 export default async function ModuleElementPage({
@@ -26,7 +29,12 @@ export default async function ModuleElementPage({
     ${action != "create" ? `: ${moduleElement ? moduleElement.Name : ""}` : ""}`}`;
 
   return (
-    <div className="flex justify-center pb-7 pt-3">
+    <main className="relative mt-5 flex justify-center">
+      <Button asChild className={`absolute -left-16 top-3`} variant="ghost">
+        <Link href={`/settings/moduleElements`}>
+          <Icon name={"MdArrowBack"} className="text-xl" />
+        </Link>
+      </Button>
       <div className="w-[50vw] rounded-md border bg-muted/60 p-5 shadow-md">
         <div className="flex items-center justify-between text-lg font-medium">
           {pagetitle}
@@ -40,6 +48,6 @@ export default async function ModuleElementPage({
         </div>
         {/* <pre>{JSON.stringify(module, null, 2)}</pre> */}
       </div>
-    </div>
+    </main>
   );
 }
