@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const getRolesWithoutRoleElementsQuery = async () => {
   const query = await prisma.roles.findMany({
-    where: { RoleModuleElements: { none: {} } },
+    where: { RoleModuleElements: { none: {} }, IsEnabled: true },
   });
 
   const res = query.map((roles: RolesWithoutRoleElementsMap) => ({
