@@ -8,3 +8,9 @@ export const UserSchema = z.object({
   RoleId: z.number(),
   IsEnabled: z.boolean(),
 });
+
+export const ChangePasswordSchema = z.object({
+  UserId: z.number(),
+  Password: z.string(),
+  RepeatPassword: z.string(),
+});

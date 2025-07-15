@@ -29,6 +29,9 @@ export default {
     enables: "Actifs",
     disables: "Inactifs",
     noValues: "Aucune valeur trouvée.",
+    changePassword: {
+      title: "Modifier le mot de passe",
+    },
   },
   login: {
     user: "Utilisateur",
@@ -56,7 +59,7 @@ export default {
     form: {
       userName: "Nom d'utilisateur",
       password: "Mot de passe",
-      repeatePassword: "Répéter le mot de passe",
+      repeatPassword: "Répéter le mot de passe",
       role: "Rôle",
       isEnabled: "Utilisateur actif",
     },
@@ -86,6 +89,10 @@ export default {
     validation: {
       password: "Le mot de passe doit contenir au moins 8 lettres",
       repeatPassword: "Les mots de passe ne correspondent pas",
+    },
+    changePassword: {
+      title: "Modifier le mot de passe",
+      nonUserError: "L'utilisateur n'a pas été trouvé",
     },
   },
   roles: {
